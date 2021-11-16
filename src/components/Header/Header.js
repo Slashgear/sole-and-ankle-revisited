@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { COLORS, WEIGHTS } from '../../constants';
+import {COLORS, QUERIES, WEIGHTS} from '../../constants';
 import Logo from '../Logo';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
+import UnstyledButton from '../UnstyledButton';
+import VisuallyHidden from "../VisuallyHidden";
+import Icon from "../Icon";
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -29,7 +32,21 @@ const Header = () => {
           <NavLink href="/kids">Kids</NavLink>
           <NavLink href="/collections">Collections</NavLink>
         </Nav>
-        <Side />
+        <MobileActions>
+          <ShoppingBagButton>
+              <Icon id="shopping-bag" />
+              <VisuallyHidden>Open cart</VisuallyHidden>
+          </ShoppingBagButton>
+          <UnstyledButton>
+              <Icon id="search" />
+              <VisuallyHidden>Search</VisuallyHidden>
+          </UnstyledButton>
+          <UnstyledButton onClick={() => setShowMobileMenu(true)}>
+              <Icon id="menu" />
+              <VisuallyHidden>Open menu</VisuallyHidden>
+          </UnstyledButton>
+        </MobileActions>
+        <Filler />
       </MainHeader>
 
       <MobileMenu
@@ -43,15 +60,53 @@ const Header = () => {
 const MainHeader = styled.div`
   display: flex;
   align-items: baseline;
-  padding: 18px 32px;
+  padding: 18px 16px;
   height: 72px;
   border-bottom: 1px solid ${COLORS.gray[300]};
+  border-top: 4px solid ${COLORS.gray[900]};
+  
+  @media ${QUERIES.tabletMin} {
+    padding: 18px 32px;
+  }
+  
+  @media ${QUERIES.laptopMin} {
+    border-top: none;
+  }
 `;
 
 const Nav = styled.nav`
-  display: flex;
+  display: none;
   gap: 48px;
   margin: 0px 48px;
+
+  @media ${QUERIES.laptopMin} {
+    display: flex;
+  }
+`;
+
+const MobileActions = styled.div`
+  display: flex;
+  gap: 16px;
+  
+  @media ${QUERIES.tabletMin} {
+    gap: 32px;
+  }
+
+  @media ${QUERIES.laptopMin} {
+    display: none;
+  }
+`;
+
+const ShoppingBagButton = styled(UnstyledButton)`
+  transform: translateX(-2px);
+`;
+
+const Filler = styled.div`
+  flex: none;
+  
+  @media ${QUERIES.laptopMin} {
+    flex: 1;
+  }
 `;
 
 const Side = styled.div`
